@@ -42,7 +42,7 @@
 
 #######################################################################
 
-GCC_SELECT_VERSION="2.5"
+GCC_SELECT_VERSION="2.6"
 
 #######################################################################
 
@@ -340,9 +340,6 @@ switch_it()
 	$dashn ln -sf $driver$switchto_cc_driver $usr/bin/$driver
       fi
     done
-    # we shall use the cxxfilt in the binutils package for _all_ compiler releases
-    $dashn rm -f $usr/bin/c++filt
-    $dashn ln -sf ../libexec/binutils/cxxfilt $usr/bin/c++filt
 
     # Change the various "default" sym links for
     # directories.
@@ -402,6 +399,11 @@ switch_it()
         $dashn ln -sf $manpage$switchto_cc_driver.1 $usr/share/man/man1/$manpage.1
       fi
     done
+    $dashn rm -rf $usr/share/man/man1/cc.1    
+    if [ -e /usr/share/man/man1/gcc.1 ]; then
+	$dashn ln -sf gcc.1 $usr/share/man/man1/cc.1
+    fi
+    
     #
     # We determine which compiler is currently installed by looking at
     # the version number it displays when we do a cc -v...
